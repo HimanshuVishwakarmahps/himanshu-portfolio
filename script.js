@@ -189,17 +189,45 @@ ScrollReveal().reveal(
 
 // form emailjs
 
+// document
+//   .getElementById("contact-form")
+//   .addEventListener("submit", function (event) {
+//     event.preventDefault();
+
+//     emailjs.sendForm("service_wpir7yb", "template_x3tqijt", this).then(
+//       function () {
+//         alert("✅ Your message has been sent!");
+//       },
+//       function (error) {
+//         alert("❌ Failed to send: " + JSON.stringify(error));
+//       }
+//     );
+//   });
+
+(function () {
+  emailjs.init("72xOTzN2hQxiLfoDM"); // यहां अपना EmailJS public key डालो
+})();
+
 document
   .getElementById("contact-form")
   .addEventListener("submit", function (event) {
     event.preventDefault();
 
-    emailjs.sendForm("service_wpir7yb", "template_x3tqijt", this).then(
-      function () {
-        alert("✅ Your message has been sent!");
-      },
-      function (error) {
-        alert("❌ Failed to send: " + JSON.stringify(error));
-      }
-    );
+    emailjs
+      .send("service_wpir7yb", "template_x3tqijt", {
+        first_name: this.first_name.value,
+        last_name: this.last_name.value,
+        user_email: this.user_email.value,
+        subject: this.subject.value,
+        message: this.message.value,
+        time: new Date().toLocaleString(), // extra variable
+      })
+      .then(
+        function () {
+          alert("✅ Your message has been sent!");
+        },
+        function (error) {
+          alert("❌ Failed to send: " + JSON.stringify(error));
+        }
+      );
   });
